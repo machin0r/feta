@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iosfwd>
+
 /**
  * @file Geometry.h
  * @brief Defines the basic geometric structures used.
@@ -17,6 +19,17 @@ struct Point3D{
 };
 
 /**
+ * @brief Overloaded stream insertion operator for Point3D
+ * @param os The output stream to insert into
+ * @param point The Point3D object to insert
+ * @return A reference to the output stream
+ *
+ * This operator allows Point3D objects to be easily printed to output streams.
+ * The point will be formatted as "(x, y, z)".
+ */
+std::ostream& operator<<(std::ostream& os, const Point3D& point);
+
+/**
  * @struct Vector3D
  * @brief Represents a vector in 3D space.
  *
@@ -29,6 +42,17 @@ struct Vector3D{
 };
 
 /**
+ * @brief Overloaded stream insertion operator for Vector3D
+ * @param os The output stream to insert into
+ * @param vector The Vector3D object to insert
+ * @return A reference to the output stream
+ *
+ * This operator allows Vector3D objects to be easily printed to output streams.
+ * The vector will be formatted as "(x, y, z)".
+ */
+std::ostream& operator<<(std::ostream& os, const Vector3D& vector);
+
+/**
  * @struct Triangle
  * @brief Represents a triangle in 3D space.
  *
@@ -38,3 +62,14 @@ struct Triangle{
     Vector3D normal;
     Point3D vertices[3];
 };
+
+/**
+ * @brief Overloaded stream insertion operator for Triangle
+ * @param os The output stream to insert into
+ * @param triangle The Triangle object to insert
+ * @return A reference to the output stream
+ *
+ * This operator allows Triangle objects to be easily printed to output streams.
+ * The triangle will be formatted as "Normal: (x, y, z), and vertices: (x, y, z), (x, y, z), (x, y, z)".
+ */
+std::ostream& operator<<(std::ostream& os, const Triangle& triangle);

@@ -16,6 +16,8 @@ class STLReader {
 private:
     std::vector<Triangle> triangles;
     double totalSurfaceArea;
+    Point3D minBound;
+    Point3D maxBound;
 
     /**
      * @brief Parses a normal vector from a string in the STL file.
@@ -56,6 +58,12 @@ private:
     double calculateTriangleArea(const Vector3D& cross);
 
     /**
+     * @brief Updates the bounding box of the model based on the triangle information.
+     * @param triangle The Triangle object.
+     */
+    void updateBoundingBox(const Triangle& triangle);
+
+    /**
      * @brief Validates a triangle for correctness and updates total surface area.
      * @param triangle The Triangle object to validate.
      * @return true if the triangle is valid, false otherwise.
@@ -67,7 +75,7 @@ public:
      * @brief Default constructor.
      * Initializes totalSurfaceArea to 0.0.
      */
-    STLReader() : totalSurfaceArea(0.0) {}
+    STLReader();
 
     /**
      * @brief Reads an STL file and processes its contents.
@@ -87,4 +95,17 @@ public:
      * @return The total surface area.
      */
     double getTotalSurfaceArea() const;
+
+    /**
+     * @brief Gets the minimum bounding box point of the model
+     * @return The minimum point of the model.
+     */
+    Point3D getMinimumBoundingBox() const;
+
+    /**
+     * @brief Gets the maximum bounding box point of the model
+     * @return The maximum point of the model.
+     */
+    Point3D getMaximumBoundingBox() const;
+
 };

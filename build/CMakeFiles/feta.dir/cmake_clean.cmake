@@ -1,4 +1,6 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/feta.dir/src/Geometry.cpp.o"
+  "CMakeFiles/feta.dir/src/Geometry.cpp.o.d"
   "CMakeFiles/feta.dir/src/STLReader.cpp.o"
   "CMakeFiles/feta.dir/src/STLReader.cpp.o.d"
   "CMakeFiles/feta.dir/src/main.cpp.o"

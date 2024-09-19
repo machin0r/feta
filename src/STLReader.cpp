@@ -5,6 +5,15 @@
 #include <iostream> 
 #include <vector>
 
+STLReader::STLReader() 
+    : totalSurfaceArea(0.0),
+      minBound{std::numeric_limits<double>::max(),
+               std::numeric_limits<double>::max(),
+               std::numeric_limits<double>::max()},
+      maxBound{std::numeric_limits<double>::lowest(),
+               std::numeric_limits<double>::lowest(),
+               std::numeric_limits<double>::lowest()}
+{}
 
 bool STLReader::parseNormal(const std::string& line, Vector3D& normal){
     return sscanf(line.c_str(), " facet normal %lf %lf %lf", 
@@ -81,6 +90,17 @@ double STLReader::calculateTriangleArea(const Vector3D& cross) {
     return 0.5 * sqrt(cross.x*cross.x + cross.y*cross.y + cross.z*cross.z);
 }
 
+void STLReader::updateBoundingBox(const Triangle& triangle) {
+    for (const auto& vertex : triangle.vertices) {
+            minBound.x = std::min(minBound.x, vertex.x);
+            minBound.y = std::min(minBound.y, vertex.y);
+            minBound.z = std::min(minBound.z, vertex.z);
+            maxBound.x = std::max(maxBound.x, vertex.x);
+            maxBound.y = std::max(maxBound.y, vertex.y);
+            maxBound.z = std::max(maxBound.z, vertex.z);
+        }
+}
+
 bool STLReader::validateTriangle(const Triangle& triangle) {
     // floating point comparison epsilon
     const double epsilon = 1e-6;
@@ -137,6 +157,7 @@ bool STLReader::readSTL(const std::string& filename){
     Triangle triangle;
     while (readTriangle(file, triangle)) {
         triangles.push_back(triangle);
+        updateBoundingBox(triangle);
     }
 
     file.close();
@@ -151,3 +172,10 @@ double STLReader::getTotalSurfaceArea() const {
     return totalSurfaceArea;
 }
 
+Point3D STLReader::getMinimumBoundingBox() const {
+    return minBound;
+}
+
+Point3D STLReader::getMaximumBoundingBox() const {
+    return maxBound;
+}

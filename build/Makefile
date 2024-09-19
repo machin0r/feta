@@ -129,6 +129,30 @@ feta/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/feta.dir/build.make CMakeFiles/feta.dir/build
 .PHONY : feta/fast
 
+src/Geometry.o: src/Geometry.cpp.o
+.PHONY : src/Geometry.o
+
+# target to build an object file
+src/Geometry.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/feta.dir/build.make CMakeFiles/feta.dir/src/Geometry.cpp.o
+.PHONY : src/Geometry.cpp.o
+
+src/Geometry.i: src/Geometry.cpp.i
+.PHONY : src/Geometry.i
+
+# target to preprocess a source file
+src/Geometry.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/feta.dir/build.make CMakeFiles/feta.dir/src/Geometry.cpp.i
+.PHONY : src/Geometry.cpp.i
+
+src/Geometry.s: src/Geometry.cpp.s
+.PHONY : src/Geometry.s
+
+# target to generate assembly for a file
+src/Geometry.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/feta.dir/build.make CMakeFiles/feta.dir/src/Geometry.cpp.s
+.PHONY : src/Geometry.cpp.s
+
 src/STLReader.o: src/STLReader.cpp.o
 .PHONY : src/STLReader.o
 
@@ -186,6 +210,9 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... feta"
+	@echo "... src/Geometry.o"
+	@echo "... src/Geometry.i"
+	@echo "... src/Geometry.s"
 	@echo "... src/STLReader.o"
 	@echo "... src/STLReader.i"
 	@echo "... src/STLReader.s"
