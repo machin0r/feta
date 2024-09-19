@@ -18,6 +18,8 @@ private:
     double totalSurfaceArea;
     Point3D minBound;
     Point3D maxBound;
+    double volume;
+    bool volumeCalculated;
 
     /**
      * @brief Parses a normal vector from a string in the STL file.
@@ -85,6 +87,11 @@ public:
     bool readSTL(const std::string& filename);
 
     /**
+     * @brief Re-calculates all the model statistics
+     */
+    void updateModelStats();
+
+    /**
      * @brief Gets the vector of triangles read from the STL file.
      * @return A const reference to the vector of triangles.
      */
@@ -95,6 +102,18 @@ public:
      * @return The total surface area.
      */
     double getTotalSurfaceArea() const;
+
+    /**
+     * @brief Calculate the volume of the model.
+     * @return The total model volume.
+     */
+    double calculateVolume();
+
+    /**
+     * @brief Gets the stored volume of the model.
+     * @return The stored volume.
+     */
+    double getVolume() const;
 
     /**
      * @brief Gets the minimum bounding box point of the model

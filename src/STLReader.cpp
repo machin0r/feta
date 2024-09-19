@@ -7,6 +7,8 @@
 
 STLReader::STLReader() 
     : totalSurfaceArea(0.0),
+      volume(0.0),
+      volumeCalculated(false),
       minBound{std::numeric_limits<double>::max(),
                std::numeric_limits<double>::max(),
                std::numeric_limits<double>::max()},
@@ -161,11 +163,45 @@ bool STLReader::readSTL(const std::string& filename){
     }
 
     file.close();
+
+    volume = calculateVolume();
+    
     return !triangles.empty();
+}
+
+void STLReader::updateModelStats() {
+    totalSurfaceArea = 0.0;
+    for (const auto& triangle : triangles) {
+            if (validateTriangle(triangle)) {
+                Vector3D cross = calculateTriangleCrossProduct(triangle);
+                totalSurfaceArea += calculateTriangleArea(cross);
+                updateBoundingBox(triangle);
+            }
+    }
+    volume = calculateVolume();
 }
 
 const std::vector<Triangle>& STLReader::getTriangles() const {
     return triangles;
+}
+
+double STLReader::calculateVolume() {
+    if (!volumeCalculated) {
+        volume = 0.0;
+        // Use Signed Tetrahedron Volume for volume of each triangle to origin
+        for (const auto& triangle : triangles) {
+            volume += (triangle.vertices[0].x + triangle.vertices[1].x + triangle.vertices[2].x) *
+                      (triangle.vertices[1].y - triangle.vertices[0].y) *
+                      (triangle.vertices[2].z - triangle.vertices[0].z);
+        }
+        volume = std::abs(volume) / 6.0;
+        volumeCalculated = true;
+    }
+    return volume;
+}
+
+double STLReader::getVolume() const {
+    return volume;
 }
 
 double STLReader::getTotalSurfaceArea() const {
