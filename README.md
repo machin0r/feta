@@ -1,4 +1,4 @@
-![Project Logo](img/feta.jpg)
+<img src="img/feta.jpg" width="300" alt="Project Logo">
 
 # Feta
 
