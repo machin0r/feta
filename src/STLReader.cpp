@@ -148,6 +148,25 @@ void STLReader::translateVertex(Point3D& vertex, Vector3D translation) {
     vertex = vertex + translation;
 }
 
+Point3D STLReader::calculateCentroid() {
+    Point3D centroid = {0, 0, 0};
+    int vertexCount = 0;
+    for (const auto& triangle : triangles) {
+        for (const auto& vertex : triangle.vertices) {
+            centroid.x += vertex.x;
+            centroid.y += vertex.y;
+            centroid.z += vertex.z;
+            vertexCount++;
+        }
+    }
+    centroid.x /= vertexCount;
+    centroid.y /= vertexCount;
+    centroid.z /= vertexCount;
+
+    return centroid;
+}
+
+
 bool STLReader::readSTL(const std::string& filename){
     std::ifstream file(filename);
     if (!file.is_open()) {
@@ -235,4 +254,32 @@ void STLReader::translateModel(Vector3D translation) {
 void STLReader::setZHeight(double desiredZHeight) {
     double zTranslation = desiredZHeight - minBound.z;
     translateModel(Vector3D{0, 0, zTranslation});
+}
+
+void STLReader::scaleModel(double scaleFactor) {
+
+    if (scaleFactor <=0) {
+        std::cerr << "Scaling factor must be greater than 0" << std::endl;
+        return;
+    }
+
+    if (scaleFactor == 1) {
+        return;  // No scaling needed
+    } 
+
+    Point3D centroid = calculateCentroid();
+
+    for (auto& triangle : triangles) {
+        for (auto& vertex : triangle.vertices) {
+            vertex = centroid + ((vertex - centroid) * scaleFactor);
+        }
+    }
+
+    // Update the model stats for the new size
+    totalSurfaceArea *= (scaleFactor * scaleFactor);
+    volume *= (scaleFactor * scaleFactor);
+ 
+    // Update bounding box
+    minBound = centroid + ((minBound - centroid) * scaleFactor);
+    maxBound = centroid + ((maxBound - centroid) * scaleFactor);
 }

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Geometry.h"
-#include "STLReader.h"
 #include <vector>
 #include <string> 
 
@@ -39,7 +38,7 @@ private:
     bool parseVertex(const std::string& line, Point3D& vertex);
 
      /**
-     * @brief Reads a single triangle from the input file stream, comprised of three vertices. Calss validation on each triangle
+     * @brief Reads a single triangle from the input file stream, comprised of three vertices. Calls validation on each triangle
      * @param file The input file stream.
      * @param triangle The Triangle object to store the read triangle.
      * @return true if reading was successful, false otherwise.
@@ -81,6 +80,11 @@ private:
      */
     void translateVertex(Point3D& vertex, Vector3D translation);
 
+    /**
+     * @brief Calculate the centroid the model
+     * @return The centroid of the model
+     */
+    Point3D calculateCentroid();
 
 public:
     /**
@@ -148,5 +152,11 @@ public:
      * @param desiredZHeight The Z-height to mvoe the model to
      */
     void setZHeight(double desiredZHeight);
+
+    /**
+     * @brief Applies a uniform scaling to the model
+     * @param scaleFactor The scale to apply (1 is the same size).
+     */
+    void scaleModel(double scaleFactor);
 
 };

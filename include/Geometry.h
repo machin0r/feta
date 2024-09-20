@@ -17,6 +17,10 @@ struct Vector3D{
     Vector3D operator+(const Vector3D& v) const {
         return Vector3D{x + v.x, y + v.y, z + v.z};
     }
+
+    Vector3D operator-(const Vector3D& v) const {
+        return Vector3D{x - v.x, y - v.y, z - v.z};
+    }
 };
 
 /**
@@ -47,6 +51,22 @@ struct Point3D{
 
     Point3D operator+(const Vector3D& v) const {
         return Point3D{x + v.x, y + v.y, z + v.z};
+    }
+
+    Point3D operator-(const Vector3D& v) const {
+        return Point3D{x - v.x, y - v.y, z - v.z};
+    }
+
+    Point3D operator+(const Point3D& p) const {
+        return Point3D{x + p.x, y + p.y, z + p.z};
+    }
+
+    Point3D operator-(const Point3D& p) const {
+        return Point3D{x - p.x, y - p.y, z - p.z};
+    }
+
+    Point3D operator*(const double& d) const {
+        return Point3D{x*d, y*d, z*d};
     }
 };
 

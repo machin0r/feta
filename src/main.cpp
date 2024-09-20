@@ -6,6 +6,7 @@
 void printUsage(const char* programName) {
     std::cerr << "Usage: " << programName << " <stl_file_path> [options]" << std::endl;
     std::cerr << "Options:" << std::endl;
+    std::cerr << "  -s <value>    Scales the model, applied before -z" << std::endl;
     std::cerr << "  -z <value>    Set Z-height of the model" << std::endl;
 }
 
@@ -19,6 +20,8 @@ int main(int argc, char* argv[]) {
     STLReader reader;
 
     std::optional<float> zHeight;
+    std::optional<float> scaleFactor;
+
 
     // Parse command-line arguments
     for (int i = 2; i < argc; i++) {
@@ -26,12 +29,20 @@ int main(int argc, char* argv[]) {
         if (arg == "-z" && i + 1 < argc) {
             zHeight = std::stof(argv[++i]);
         }
+        if (arg == "-s" && i + 1 < argc) {
+            scaleFactor = std::stof(argv[++i]);
+        }
     }
 
     if (reader.readSTL(filename)) {
         std::cout << "Successfully read " << reader.getTriangles().size() << " triangles." << std::endl;
     } else {
         std::cerr << "Failed to read STL file." << std::endl;
+    }
+
+    if (scaleFactor.has_value()) {
+        reader.scaleModel(scaleFactor.value());
+        std::cout << "Model scaled by a factor of " << scaleFactor.value() << std::endl;
     }
 
     if (zHeight.has_value()) {
