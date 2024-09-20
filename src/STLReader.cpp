@@ -14,7 +14,8 @@ STLReader::STLReader()
                std::numeric_limits<double>::max()},
       maxBound{std::numeric_limits<double>::lowest(),
                std::numeric_limits<double>::lowest(),
-               std::numeric_limits<double>::lowest()}
+               std::numeric_limits<double>::lowest()},
+      appliedTranslation{0,0,0}
 {}
 
 bool STLReader::parseNormal(const std::string& line, Vector3D& normal){
@@ -67,42 +68,6 @@ bool STLReader::readTriangle(std::ifstream& file, Triangle& triangle) {
     return true;
 }
 
-Vector3D STLReader::calculateTriangleCrossProduct(const Triangle& triangle) {
-    Vector3D edge1 = {
-        triangle.vertices[1].x - triangle.vertices[0].x,
-        triangle.vertices[1].y - triangle.vertices[0].y,
-        triangle.vertices[1].z - triangle.vertices[0].z
-    };
-    Vector3D edge2 = {
-        triangle.vertices[2].x - triangle.vertices[0].x,
-        triangle.vertices[2].y - triangle.vertices[0].y,
-        triangle.vertices[2].z - triangle.vertices[0].z
-    };
-    
-    Vector3D cross = {
-        edge1.y * edge2.z - edge1.z * edge2.y,
-        edge1.z * edge2.x - edge1.x * edge2.z,
-        edge1.x * edge2.y - edge1.y * edge2.x
-    };
-
-    return cross;
-}
-
-double STLReader::calculateTriangleArea(const Vector3D& cross) {
-    return 0.5 * sqrt(cross.x*cross.x + cross.y*cross.y + cross.z*cross.z);
-}
-
-void STLReader::updateBoundingBox(const Triangle& triangle) {
-    for (const auto& vertex : triangle.vertices) {
-            minBound.x = std::min(minBound.x, vertex.x);
-            minBound.y = std::min(minBound.y, vertex.y);
-            minBound.z = std::min(minBound.z, vertex.z);
-            maxBound.x = std::max(maxBound.x, vertex.x);
-            maxBound.y = std::max(maxBound.y, vertex.y);
-            maxBound.z = std::max(maxBound.z, vertex.z);
-        }
-}
-
 bool STLReader::validateTriangle(const Triangle& triangle) {
     // floating point comparison epsilon
     const double epsilon = 1e-6;
@@ -143,6 +108,45 @@ bool STLReader::validateTriangle(const Triangle& triangle) {
     return true;
 }
 
+Vector3D STLReader::calculateTriangleCrossProduct(const Triangle& triangle) {
+    Vector3D edge1 = {
+        triangle.vertices[1].x - triangle.vertices[0].x,
+        triangle.vertices[1].y - triangle.vertices[0].y,
+        triangle.vertices[1].z - triangle.vertices[0].z
+    };
+    Vector3D edge2 = {
+        triangle.vertices[2].x - triangle.vertices[0].x,
+        triangle.vertices[2].y - triangle.vertices[0].y,
+        triangle.vertices[2].z - triangle.vertices[0].z
+    };
+    
+    Vector3D cross = {
+        edge1.y * edge2.z - edge1.z * edge2.y,
+        edge1.z * edge2.x - edge1.x * edge2.z,
+        edge1.x * edge2.y - edge1.y * edge2.x
+    };
+
+    return cross;
+}
+
+double STLReader::calculateTriangleArea(const Vector3D& cross) {
+    return 0.5 * sqrt(cross.x*cross.x + cross.y*cross.y + cross.z*cross.z);
+}
+
+void STLReader::updateBoundingBox(const Triangle& triangle) {
+    for (const auto& vertex : triangle.vertices) {
+            minBound.x = std::min(minBound.x, vertex.x);
+            minBound.y = std::min(minBound.y, vertex.y);
+            minBound.z = std::min(minBound.z, vertex.z);
+            maxBound.x = std::max(maxBound.x, vertex.x);
+            maxBound.y = std::max(maxBound.y, vertex.y);
+            maxBound.z = std::max(maxBound.z, vertex.z);
+        }
+}
+
+void STLReader::translateVertex(Point3D& vertex, Vector3D translation) {
+    vertex = vertex + translation;
+}
 
 bool STLReader::readSTL(const std::string& filename){
     std::ifstream file(filename);
@@ -214,4 +218,21 @@ Point3D STLReader::getMinimumBoundingBox() const {
 
 Point3D STLReader::getMaximumBoundingBox() const {
     return maxBound;
+}
+
+void STLReader::translateModel(Vector3D translation) {
+    for (auto& triangle : triangles) {
+            for (auto& vertex : triangle.vertices) {
+                translateVertex(vertex, translation);
+            }
+        }
+    minBound = minBound + translation;
+    maxBound = maxBound + translation;
+
+    appliedTranslation = appliedTranslation + translation;
+}
+
+void STLReader::setZHeight(double desiredZHeight) {
+    double zTranslation = desiredZHeight - minBound.z;
+    translateModel(Vector3D{0, 0, zTranslation});
 }

@@ -20,6 +20,7 @@ private:
     Point3D maxBound;
     double volume;
     bool volumeCalculated;
+    Vector3D appliedTranslation;
 
     /**
      * @brief Parses a normal vector from a string in the STL file.
@@ -46,6 +47,13 @@ private:
     bool readTriangle(std::ifstream& file, Triangle& triangle);
 
     /**
+     * @brief Validates a triangle for correctness and updates total surface area.
+     * @param triangle The Triangle object to validate.
+     * @return true if the triangle is valid, false otherwise.
+     */
+    bool validateTriangle(const Triangle& triangle);
+
+    /**
      * @brief Calculates the cross product of two edges of a triangle.
      * @param triangle The Triangle object.
      * @return The cross product as a Vector3D.
@@ -66,11 +74,13 @@ private:
     void updateBoundingBox(const Triangle& triangle);
 
     /**
-     * @brief Validates a triangle for correctness and updates total surface area.
-     * @param triangle The Triangle object to validate.
-     * @return true if the triangle is valid, false otherwise.
+     * @brief Applies a translation to a vertex
+     * @param vertex The Triangle object.
+     * @param translation The translation to apply to the model
+     * 
      */
-    bool validateTriangle(const Triangle& triangle);
+    void translateVertex(Point3D& vertex, Vector3D translation);
+
 
 public:
     /**
@@ -126,5 +136,17 @@ public:
      * @return The maximum point of the model.
      */
     Point3D getMaximumBoundingBox() const;
+
+    /**
+     * @brief Applies a translation uniformly to the model
+     * @param translation The translation to apply to the model
+     */
+    void translateModel(Vector3D translation);
+
+    /**
+     * @brief Moves the model to a set Z-height - the lowest bound Z value will be here
+     * @param desiredZHeight The Z-height to mvoe the model to
+     */
+    void setZHeight(double desiredZHeight);
 
 };
