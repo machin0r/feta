@@ -1,4 +1,6 @@
-<img src="img/feta.jpg" width="300" alt="Project Logo">
+<p align="center">
+  <img src="img/feta.jpg" width="300" alt="Project Logo">
+</p>
 
 # Feta
 
