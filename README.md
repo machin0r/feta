@@ -6,6 +6,36 @@
 
 Feta (Greek for "slice") is a C++ library for reading, validating, and slicing STL files used for 3D printing.
 
+## Building
+
+### Prerequisites
+
+C++17 compatible compiler
+
+CMake 3.10 or higher
+
+### Steps
+
+Clone the repo:
+
+```
+git clone https://github.com/machin0r/fets.git
+cd feta
+```
+
+Create a build directory and navigate to it:
+
+```
+mkdir build && cd build
+```
+
+Run CMake and build the project:
+```
+cmake ..
+make
+```
+
+
 ## Usage
 
 After building the project, you can run the program with the following syntax:

@@ -1,3 +1,6 @@
+# Make file
+build/
+
 # Prerequisites
 *.d
 
