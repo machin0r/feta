@@ -1,1 +1,0 @@
-/usr/bin/c++ CMakeFiles/slicer.dir/src/main.cpp.o CMakeFiles/slicer.dir/src/STLReader.cpp.o -o slicer
