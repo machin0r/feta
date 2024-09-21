@@ -34,9 +34,25 @@ public:
     const std::vector<Layer>& getLayers() const;
 
 private:
+
+    struct TriangleZRange {
+        const Triangle* triangle;
+        double minZ;
+        double maxZ;
+
+        TriangleZRange(const Triangle* t);
+    };
+
+
     const STLReader& stlReader; ///< Reference to the STLReader object containing the 3D model data.
     double layerHeight; ///< The height of each slice layer.
     std::vector<Layer> layers; ///< Vector to store the resulting slice layers.
+    std::vector<TriangleZRange> triangleRanges; ///< Vector to store the sorted triangles
+
+    /**
+     * @brief Prepares the triangles by sorting them by Z-height
+     */
+    void prepareTriangles();
 
     /**
      * @brief Checks to see if a triangle is fully contained by a slice layer.

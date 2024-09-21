@@ -2,15 +2,40 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <algorithm>
+
+
+Slicer::TriangleZRange::TriangleZRange(const Triangle* t) : triangle(t) {
+    minZ = std::min({t->vertices[0].z, t->vertices[1].z, t->vertices[2].z});
+    maxZ = std::max({t->vertices[0].z, t->vertices[1].z, t->vertices[2].z});
+}
 
 Slicer::Slicer(const STLReader& stlReader, double layerHeight)
-    : stlReader(stlReader), layerHeight(layerHeight) {}
+    : stlReader(stlReader), layerHeight(layerHeight) {
+        prepareTriangles();
+    }
 
+void Slicer::prepareTriangles() {
+    const auto& triangles = stlReader.getTriangles();
+    triangleRanges.reserve(triangles.size());
+
+    for (const auto& triangle : triangles) {
+        triangleRanges.emplace_back(&triangle);
+    }
+
+    // Sort triangles based on their minimum Z-coordinate
+    std::sort(triangleRanges.begin(), triangleRanges.end(),
+              [](const TriangleZRange& a, const TriangleZRange& b) {
+                  return a.minZ < b.minZ;
+              });
+}
 
 void Slicer::sliceModel() {
     const auto& triangles = stlReader.getTriangles();
     double modelHeight = stlReader.getMaximumBoundingBox().z - stlReader.getMinimumBoundingBox().z;
     int numLayers = ceil(modelHeight / layerHeight);
+
+    std::size_t triangleIndex = 0;
 
     // Create a new slice layer and check if each triangle is fully in this slice layer, or intersects it
     for (int i = 0; i < numLayers; i++) {
@@ -18,7 +43,19 @@ void Slicer::sliceModel() {
         Layer currentLayer;
         currentLayer.height = layerZ;
 
-        for (const Triangle& tri : triangles) {
+        // Advance triangleIndex to the first relevant triangle
+        while (triangleIndex < triangleRanges.size() && triangleRanges[triangleIndex].maxZ < layerZ) {
+            triangleIndex++;
+        }
+
+        // Process relevant triangles
+        for (std::size_t j = triangleIndex; j < triangleRanges.size(); j++) {
+            const auto& triangleRange = triangleRanges[j];
+            if (triangleRange.minZ > layerZ) {
+                break;  // No more relevant triangles for this layer
+            }
+
+            const Triangle& tri = *triangleRange.triangle;
             if (isTriangleInLayer(tri, layerZ, layerHeight)) {
                 addProjectedTriangleToLayer(tri, layerZ, currentLayer);
             } else if (doesTriangleIntersectLayer(tri, layerZ)) {
