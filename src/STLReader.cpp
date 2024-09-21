@@ -245,6 +245,7 @@ void STLReader::translateModel(Vector3D translation) {
                 translateVertex(vertex, translation);
             }
         }
+        
     minBound = minBound + translation;
     maxBound = maxBound + translation;
 

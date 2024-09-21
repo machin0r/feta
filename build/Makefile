@@ -177,6 +177,30 @@ src/STLReader.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/feta.dir/build.make CMakeFiles/feta.dir/src/STLReader.cpp.s
 .PHONY : src/STLReader.cpp.s
 
+src/Slicer.o: src/Slicer.cpp.o
+.PHONY : src/Slicer.o
+
+# target to build an object file
+src/Slicer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/feta.dir/build.make CMakeFiles/feta.dir/src/Slicer.cpp.o
+.PHONY : src/Slicer.cpp.o
+
+src/Slicer.i: src/Slicer.cpp.i
+.PHONY : src/Slicer.i
+
+# target to preprocess a source file
+src/Slicer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/feta.dir/build.make CMakeFiles/feta.dir/src/Slicer.cpp.i
+.PHONY : src/Slicer.cpp.i
+
+src/Slicer.s: src/Slicer.cpp.s
+.PHONY : src/Slicer.s
+
+# target to generate assembly for a file
+src/Slicer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/feta.dir/build.make CMakeFiles/feta.dir/src/Slicer.cpp.s
+.PHONY : src/Slicer.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -216,6 +240,9 @@ help:
 	@echo "... src/STLReader.o"
 	@echo "... src/STLReader.i"
 	@echo "... src/STLReader.s"
+	@echo "... src/Slicer.o"
+	@echo "... src/Slicer.i"
+	@echo "... src/Slicer.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

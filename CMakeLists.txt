@@ -9,4 +9,5 @@ add_executable(feta
     src/main.cpp
     src/STLReader.cpp
     src/Geometry.cpp
+    src/Slicer.cpp
 )

@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/feta.dir/src/main.cpp.o CMakeFiles/feta.dir/src/STLReader.cpp.o CMakeFiles/feta.dir/src/Geometry.cpp.o -o feta
+/usr/bin/c++ CMakeFiles/feta.dir/src/main.cpp.o CMakeFiles/feta.dir/src/STLReader.cpp.o CMakeFiles/feta.dir/src/Geometry.cpp.o CMakeFiles/feta.dir/src/Slicer.cpp.o -o feta

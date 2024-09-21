@@ -23,9 +23,7 @@ CMakeFiles/feta.dir/src/STLReader.cpp.o: \
  /usr/include/bits/types/mbstate_t.h \
  /usr/include/bits/types/__mbstate_t.h /usr/include/bits/types/__FILE.h \
  /usr/include/bits/types/FILE.h /usr/include/bits/types/locale_t.h \
- /usr/include/bits/types/__locale_t.h \
- /home/michael/projects/cpp/feta/include/STLReader.h \
- /usr/include/c++/14.2.1/vector \
+ /usr/include/bits/types/__locale_t.h /usr/include/c++/14.2.1/vector \
  /usr/include/c++/14.2.1/bits/stl_algobase.h \
  /usr/include/c++/14.2.1/bits/functexcept.h \
  /usr/include/c++/14.2.1/bits/exception_defines.h \
@@ -69,7 +67,9 @@ CMakeFiles/feta.dir/src/STLReader.cpp.o: \
  /usr/include/c++/14.2.1/cstddef \
  /usr/include/c++/14.2.1/bits/uses_allocator.h \
  /usr/include/c++/14.2.1/bits/uses_allocator_args.h \
- /usr/include/c++/14.2.1/tuple /usr/include/c++/14.2.1/string \
+ /usr/include/c++/14.2.1/tuple \
+ /home/michael/projects/cpp/feta/include/STLReader.h \
+ /usr/include/c++/14.2.1/string \
  /usr/include/c++/14.2.1/bits/char_traits.h \
  /usr/include/c++/14.2.1/bits/localefwd.h \
  /usr/include/c++/14.2.1/x86_64-pc-linux-gnu/bits/c++locale.h \

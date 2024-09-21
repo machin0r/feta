@@ -13,13 +13,13 @@
  */
 class STLReader {
 private:
-    std::vector<Triangle> triangles;
-    double totalSurfaceArea;
-    Point3D minBound;
-    Point3D maxBound;
-    double volume;
-    bool volumeCalculated;
-    Vector3D appliedTranslation;
+    std::vector<Triangle> triangles; ///< Vector storing all triangles from the STL file
+    double totalSurfaceArea; ///< Total surface area of all valid triangles
+    Point3D minBound; ///< Minimum point of the model bounding box
+    Point3D maxBound; ///< Maximum point of the model bounding box
+    double volume; ///< Volume of the model
+    bool volumeCalculated; ///< Flag indicating if volume has been calculated
+    Vector3D appliedTranslation; ///< Translation vector applied to the model
 
     /**
      * @brief Parses a normal vector from a string in the STL file.

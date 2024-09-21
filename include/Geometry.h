@@ -1,6 +1,47 @@
 #pragma once
 
 #include <iosfwd>
+#include <vector>
+
+/**
+ * @file Geometry.h
+ * @brief Defines the basic geometric structures used.
+ */
+
+/**
+ * @struct Point2D
+ * @brief Represents a point in 2D space.
+ *
+ * This structure uses double precision floating-point numbers to represent
+ * the x and y coordinates of a point in two-dimensional space.
+ */
+struct Point2D{
+    double x, y;
+
+    Point2D operator-(const Point2D& p) const {
+        return Point2D{x - p.x, y - p.y};
+    }
+
+    Point2D operator+(const Point2D& p) const {
+        return Point2D{x + p.x, y + p.y};
+    }
+
+    Point2D operator*(const double& d) const {
+        return Point2D{x*d, y*d};
+    }
+};
+
+
+/**
+ * @brief Overloaded stream insertion operator for Point2D
+ * @param os The output stream to insert into
+ * @param point The Point2D object to insert
+ * @return A reference to the output stream
+ *
+ * This operator allows Point2D objects to be easily printed to output streams.
+ * The point will be formatted as "(x, y)".
+ */
+std::ostream& operator<<(std::ostream& os, const Point2D& point);
 
 
 /**
@@ -21,6 +62,10 @@ struct Vector3D{
     Vector3D operator-(const Vector3D& v) const {
         return Vector3D{x - v.x, y - v.y, z - v.z};
     }
+
+    Vector3D operator*(const double& d) const {
+        return Vector3D{x*d, y*d, z*d};
+    }
 };
 
 /**
@@ -33,11 +78,6 @@ struct Vector3D{
  * The vector will be formatted as "(x, y, z)".
  */
 std::ostream& operator<<(std::ostream& os, const Vector3D& vector);
-
-/**
- * @file Geometry.h
- * @brief Defines the basic geometric structures used.
- */
 
 /**
  * @struct Point3D
@@ -102,3 +142,25 @@ struct Triangle{
  * The triangle will be formatted as "Normal: (x, y, z), and vertices: (x, y, z), (x, y, z), (x, y, z)".
  */
 std::ostream& operator<<(std::ostream& os, const Triangle& triangle);
+
+/**
+ * @struct Line 
+ * @brief Represents a line in 2D space.
+ *
+ * This structure defines a line between two points in the same Z plane.
+ */
+struct Line {
+    Point2D start;
+    Point2D end;
+};
+
+/**
+ * @struct Layer 
+ * @brief Represents a slice layer in 3D space.
+ *
+ * This structure defines a layer comprised of a series of Lines.
+ */
+struct Layer {
+    std::vector<Line> lines;
+    double height;
+};
