@@ -19,7 +19,7 @@ CMake 3.10 or higher
 Clone the repo:
 
 ```
-git clone https://github.com/machin0r/fets.git
+git clone https://github.com/machin0r/feta.git
 cd feta
 ```
 
